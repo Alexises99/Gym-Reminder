@@ -1,0 +1,20 @@
+.week-pill {
+  position: absolute;
+  color: white;
+  font-weight: normal;
+  border: 1px solid white;
+  border-radius: 4rem;
+  background-color: transparent;
+  text-transform: capitalize;
+  transition: opacity 0.3s;
+  flex-shrink: 0;
+  width: 128px;
+  left: calc(50% - 2rem);
+  height: 100%;
+
+  &.isActive {
+    color: #3f3f3f;
+    font-weight: bold;
+    background-color: white;
+  }
+}
