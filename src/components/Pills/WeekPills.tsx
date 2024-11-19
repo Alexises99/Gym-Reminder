@@ -11,7 +11,7 @@ const GAP = 140
 export default function WeekPills() {
   const [dragging, setDragging] = useState<boolean>(false)
   const [initialCenter, initialRadius] = timeUtils.initializeRangeWeeks(2)
-  const { selectedWeekNumber, selectedYear, change } = useSelectedWeek()
+  const { selectedWeekInstant, change } = useSelectedWeek()
 
   const [[center, radius], setRange] = useState<[number, number]>([
     initialCenter,
@@ -54,7 +54,7 @@ export default function WeekPills() {
 
   return (
     <section
-      className="flex items-center mx-auto overflow-hidden mt-6 relative h-[54px]"
+      className={`flex items-center mx-auto overflow-hidden mt-6 relative h-[54px]`}
       onTouchMove={handleTouchMove}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleEnd}
@@ -63,25 +63,21 @@ export default function WeekPills() {
       onMouseUp={handleEnd}
     >
       {weeksTimestamps.map((weekTimestamp) => {
-        const year = new Date(weekTimestamp).getFullYear()
         const weekNumber = timeUtils.getWeekByMs(weekTimestamp)
 
-        const isActualWeek =
-          selectedWeekNumber === weekNumber && year === selectedYear
+        const isActualWeek = weekTimestamp === selectedWeekInstant
 
         const translate = (weekTimestamp - center) / msPerPx
 
         return (
           <WeekPill
+            dragging={dragging}
             key={weekTimestamp}
             weekNumber={weekNumber}
             translate={translate}
             isActive={isActualWeek}
             handleClick={() => {
-              const date = new Date(weekTimestamp)
-              const weekNumber = timeUtils.getWeekNumber(date)
-              const year = date.getFullYear()
-              change(weekNumber, year)
+              change(weekTimestamp)
               setRange([weekTimestamp, radius])
             }}
           />
