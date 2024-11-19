@@ -31,6 +31,14 @@ export default function Home() {
           <DashboardCard title="Press banca" lastWeight={30} target={50} />
           <DashboardCard title="Press banca" lastWeight={30} target={50} />
         </section>
+        <button className="fixed bottom-6 right-6 bg-primary rounded-full">
+          <Image
+            src="/icons/add.svg"
+            alt="Anadir ejercicio"
+            width={42}
+            height={42}
+          />
+        </button>
       </main>
     </>
   )
