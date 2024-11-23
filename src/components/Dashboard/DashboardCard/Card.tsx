@@ -1,38 +1,76 @@
+'use client'
+
 import Image from 'next/image'
 import DashboardCardFirstStep from './FirstStep/FirstStep'
+import useDrag from '@/hooks/useDrag'
+import { DashboardCardSecondStep } from './SecondStep/SecondStep'
+import StepIndicator from './StepIndicator'
+import { useState } from 'react'
+
+const GAP = 16
 
 interface DashboardCardProps {
   title: string
-  lastWeight: number
   target: number
 }
 
-export default function DashboardCard({
-  lastWeight,
-  target,
-  title
-}: DashboardCardProps) {
+export default function DashboardCard({ target, title }: DashboardCardProps) {
+  const [currentStep, setCurrentStep] = useState<1 | 2>(1)
+  const [pendingAddSerie, setPendingAddSerie] = useState<boolean>(false)
+
+  const {
+    dragRef,
+    dragging,
+    positionX,
+    handleTouchMove,
+    handleTouchStart,
+    handleTouchEnd
+  } = useDrag(GAP, setCurrentStep)
+
   return (
     <article className="flex flex-col bg-container rounded-3xl p-4 gap-4">
       <header className="flex items-center justify-between">
         <h2 className="text-primary text-2xl">{title}</h2>
         <div className="flex gap-4 items-center">
-          <div className="flex gap-2">
-            <div className="w-2 h-2 bg-white rounded-full" />
-            <div className="w-2 h-2 bg-gray-500 rounded-full" />
-          </div>
-          <button className="bg-background rounded-full p-2">
-            <Image
-              src="/icons/edit.svg"
-              width={24}
-              height={24}
-              alt="Editar ejercicio"
-            />
+          <StepIndicator currentStep={currentStep} />
+          <button className="bg-primary rounded-full p-1" type="button">
+            {currentStep === 1 ? (
+              <Image
+                src={`/icons/${pendingAddSerie ? 'done' : 'add'}.svg`}
+                width={28}
+                height={28}
+                alt={`${pendingAddSerie ? 'Anadir serie' : 'Guardar serie'}`}
+                onClick={() => setPendingAddSerie((prev) => !prev)}
+              />
+            ) : (
+              <Image
+                src="/icons/edit.svg"
+                width={28}
+                height={28}
+                alt="Editar ejercicio"
+              />
+            )}
           </button>
         </div>
       </header>
-
-      <DashboardCardFirstStep target={target} />
+      <div
+        className="overflow-hidden flex gap-4 relative min-h-12"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        ref={dragRef}
+      >
+        <DashboardCardFirstStep
+          translate={positionX}
+          dragging={dragging}
+          pendingAddSerie={pendingAddSerie}
+        />
+        <DashboardCardSecondStep
+          target={target}
+          translate={350 + GAP + positionX}
+          dragging={dragging}
+        />
+      </div>
     </article>
   )
 }

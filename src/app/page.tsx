@@ -1,44 +1,30 @@
 import DashboardCard from '@/components/Dashboard/DashboardCard/Card'
+import DashboardHeader from '@/components/Dashboard/Header/Header'
 import WeekPills from '@/components/Pills/WeekPills'
-import Image from 'next/image'
 
 export default function Home() {
   return (
     <>
-      <header className="flex justify-between items-center p-4">
-        <Image
-          width={48}
-          height={48}
-          src="/icons/user.svg"
-          alt="Icono de usuario"
-          aria-hidden
-          className="border border-primary rounded-full p-2"
-        />
-        <span className="uppercase text-xl">Gym Reminder</span>
-        <Image
-          width={48}
-          height={48}
-          src="/icons/menu.svg"
-          alt="Icono de Menu"
-          aria-hidden
-        />
-      </header>
+      <DashboardHeader />
       <main className="mx-auto mt-4">
-        <h1 className="text-4xl px-4">Progreso</h1>
+        <h1 className="text-4xl px-4">Rutina</h1>
         <WeekPills />
         <section className="flex flex-col gap-4 mt-6 px-4">
-          <DashboardCard title="Press banca" lastWeight={30} target={50} />
-          <DashboardCard title="Press banca" lastWeight={30} target={50} />
-          <DashboardCard title="Press banca" lastWeight={30} target={50} />
+          <DashboardCard title="Press banca" target={50} />
+          <DashboardCard title="Press militar" target={50} />
+          <DashboardCard title="Sentadilla" target={50} />
         </section>
-        <button className="fixed bottom-6 right-6 bg-primary rounded-full">
+        {/* <button
+          className="fixed bottom-6 right-6 bg-primary rounded-full"
+          type="button"
+        >
           <Image
             src="/icons/add.svg"
             alt="Anadir ejercicio"
             width={42}
             height={42}
           />
-        </button>
+        </button> */}
       </main>
     </>
   )
