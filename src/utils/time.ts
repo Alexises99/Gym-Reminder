@@ -81,11 +81,31 @@ function getWeekNumber(date: Date) {
   return Math.ceil((diff + firstThursday.getDay() + 1) / 7)
 }
 
+function getWeekRangeAsArray(date: Date) {
+  const currentDay = date.getDay() // 0 (Sunday) to 6 (Saturday)
+  const startOfWeekOffset = currentDay === 0 ? -6 : 1 - currentDay // Offset to Monday
+  const monday = new Date(date)
+  monday.setDate(date.getDate() + startOfWeekOffset)
+  monday.setHours(0, 0, 0, 0)
+
+  // Generate the range from Monday to Sunday
+  const weekRange = []
+  for (let i = 0; i < 7; i++) {
+    const day = new Date(monday)
+    day.setDate(monday.getDate() + i) // Add i days to Monday
+    day.setHours(0, 0, 0, 0)
+    weekRange.push(day)
+  }
+
+  return weekRange
+}
+
 const timeUtils = {
   initializeRangeWeeks,
   getWeeksRange,
   getWeekByMs,
-  getWeekNumber
+  getWeekNumber,
+  getWeekRangeAsArray
 }
 
 export default timeUtils

@@ -20,37 +20,35 @@ export default function Month<T>({
   const weeks = calendarUtils.getWeeks(daysData)
 
   return (
-    <div className="mx-3 hidden first:block">
-      <table className="border-collapse table-fixed w-full text-center">
-        <thead>
-          <tr>
-            {daysOfWeek.map((day) => (
-              <td key={day} className="font-light">
-                {day}
-              </td>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {weeks.map((week, index) => {
-            return (
-              <tr key={index}>
-                {week.map(({ date, value, isPastMonth, isNextMonth }) => (
-                  <Day<T>
-                    key={date.valueOf()}
-                    value={value}
-                    date={date}
-                    isPastMonth={isPastMonth}
-                    isNextMonth={isNextMonth}
-                    valueComponent={valueComponent}
-                    handleCurrentMonth={handleCurrentMonth}
-                  />
-                ))}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </div>
+    <table className="border-collapse table-fixed w-full text-center">
+      <thead>
+        <tr>
+          {daysOfWeek.map((day) => (
+            <td key={day} className="text-lg">
+              {day}
+            </td>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {weeks.map((week, index) => {
+          return (
+            <tr key={index}>
+              {week.map(({ date, value, isPastMonth, isNextMonth }) => (
+                <Day<T>
+                  key={date.valueOf()}
+                  value={value}
+                  date={date}
+                  isPastMonth={isPastMonth}
+                  isNextMonth={isNextMonth}
+                  valueComponent={valueComponent}
+                  handleCurrentMonth={handleCurrentMonth}
+                />
+              ))}
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
   )
 }

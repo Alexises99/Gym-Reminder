@@ -28,12 +28,20 @@ export default function Day<T>({
 
   return (
     <td
-      className={`p-1 h-14 font-light border-1 border-solid border-primary ${
+      className={`p-1 h-12 font-light border-2 border-[rgb(58,58,58)] ${
         isPastMonth || isNextMonth ? 'opacity-45' : ''
-      } ${isSelectedDate ? 'bg-primary text-black rounded-md' : ''}`}
+      } ${
+        isSelectedDate
+          ? 'bg-primary text-black rounded-md border-background border-2 shadow-inner'
+          : ''
+      }`}
       onClick={handleClick}
     >
-      <span className="font-light">{dayNumber}</span>
+      <span
+        className={`text-lg ${isSelectedDate ? 'font-bold' : 'font-light'}`}
+      >
+        {dayNumber}
+      </span>
       {value && ValueComponent ? <ValueComponent {...value} /> : null}
     </td>
   )
